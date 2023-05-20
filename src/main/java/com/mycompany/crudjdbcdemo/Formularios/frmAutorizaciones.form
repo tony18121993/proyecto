@@ -67,8 +67,10 @@
                   <Component id="txtañadir" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                   <Component id="btnactualizar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                   <Component id="btneliminar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="btnbuscar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -91,6 +93,7 @@
                       <Component id="txtañadir" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnactualizar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btneliminar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnbuscar" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               </Group>
@@ -100,12 +103,12 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="idalumno"/>
+            <Property name="text" type="java.lang.String" value="alumno"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="idAutorizado"/>
+            <Property name="text" type="java.lang.String" value="Unidad"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtidalumno">
@@ -126,6 +129,8 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Eliminar"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnbuscar">
         </Component>
       </SubComponents>
     </Container>

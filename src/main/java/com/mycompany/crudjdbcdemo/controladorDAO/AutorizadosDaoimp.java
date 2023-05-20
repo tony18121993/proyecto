@@ -33,7 +33,7 @@ public class AutorizadosDaoimp implements AutorizadosDao {
     }
     @Override
     public int add(Autorizados c) throws SQLException {
-        String sql="insert into autorizados(dni,nombre,apellido1,apellido2,parentesco) values(?,?,?,?,?) ";
+        String sql="insert into autorizado(dni,nombre,apellido1,apellido2,parentesco) values(?,?,?,?,?) ";
         try(Connection cn= MyDataSource.getConnection();
             PreparedStatement pstm=cn.prepareStatement(sql);){
             
@@ -50,7 +50,7 @@ public class AutorizadosDaoimp implements AutorizadosDao {
 
     @Override
     public Autorizados getById(int id) throws SQLException {
-        String sql="Select * from autorizados where id=?"; 
+        String sql="Select * from autorizado where id=?"; 
        Autorizados c=new Autorizados();
         try(Connection cn= MyDataSource.getConnection();
             PreparedStatement pstm=cn.prepareStatement(sql);){
@@ -75,7 +75,7 @@ public class AutorizadosDaoimp implements AutorizadosDao {
 
     @Override
     public List<Autorizados> getAll() throws SQLException {
-        String sql="Select * from autorizados "; 
+        String sql="Select * from autorizado "; 
         List<Autorizados> badeDatos = new ArrayList<>();
         Autorizados c;
         try(Connection cn= MyDataSource.getConnection();
@@ -89,7 +89,9 @@ public class AutorizadosDaoimp implements AutorizadosDao {
                 c.setNombre(rs.getString("nombre"));
                 c.setApellido1(rs.getString("apellido1"));  
                 c.setApellido2(rs.getString("apellido2"));
-                c.setParentesco((Parentesco)rs.getObject("parentesco"));
+                System.out.println("que dices");
+                c.setParentesco((Parentesco.valueOf(rs.getString("parentesco"))));
+                System.out.println("hola");
                 badeDatos.add(c);
             }
             
@@ -98,8 +100,8 @@ public class AutorizadosDaoimp implements AutorizadosDao {
     }
 
     @Override
-    public int update(Autorizados c) throws SQLException {
-        String sql="update autorizados set dni=?,nombre=?,apellido1=?,apellido2=?,parentesco=? where id=? ";
+    public int update(int id,Autorizados c) throws SQLException {
+        String sql="update autorizado set dni=?,nombre=?,apellido1=?,apellido2=?,parentesco=? where id=? ";
         try(Connection cn= MyDataSource.getConnection();
             PreparedStatement pstm=cn.prepareStatement(sql);){
             
@@ -116,7 +118,7 @@ public class AutorizadosDaoimp implements AutorizadosDao {
 
     @Override
     public void delete(int id) throws SQLException {
-        String sql="delete from autorizados where id=?;";
+        String sql="delete from autorizado where id=?;";
         try(Connection cn= MyDataSource.getConnection();
             PreparedStatement pstm=cn.prepareStatement(sql);){
             pstm.setInt(1,id);
@@ -126,7 +128,7 @@ public class AutorizadosDaoimp implements AutorizadosDao {
 
     @Override
     public List<Autorizados> buscar(String s) throws SQLException {
-        String sql="Select * from autorizados where concat_ws(id,dni,nombre,apellido1,apellido2,parentesco) like '%?%'"; 
+        String sql="Select * from autorizado where concat_ws(id,dni,nombre,apellido1,apellido2,parentesco) like '%?%'"; 
         List<Autorizados> badeDatos = new ArrayList<>();
         Autorizados c;
         try(Connection cn= MyDataSource.getConnection();

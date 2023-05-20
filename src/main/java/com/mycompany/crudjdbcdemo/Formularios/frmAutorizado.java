@@ -4,17 +4,71 @@
  */
 package com.mycompany.crudjdbcdemo.Formularios;
 
+import com.mycompany.crudjdbcdemo.Entidades.Autorizados;
+import com.mycompany.crudjdbcdemo.Entidades.Parentesco;
+import com.mycompany.crudjdbcdemo.controladorDAO.AutorizadosDaoimp;
+import java.awt.event.KeyEvent;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author TONY
  */
 public class frmAutorizado extends javax.swing.JFrame {
-
+    public int id;
     /**
      * Creates new form frmAutorizado
      */
     public frmAutorizado() {
         initComponents();
+        configTabla();
+        cargaTabla();
+    }
+     private void configTabla(){
+        String col[]={"ID","DNI","NOMBRE","APELLIDO1","APELLIDO2","PARENTESCO"};
+        DefaultTableModel modelo=new DefaultTableModel(col,0){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+    };
+        jtAutorizado.setModel(modelo);
+        
+        
+        
+    }
+    
+    
+    private void cargaTabla(){
+        DefaultTableModel modelo=(DefaultTableModel)jtAutorizado.getModel();
+        
+        AutorizadosDaoimp alumnos=AutorizadosDaoimp.getInstance();
+        String[] fila=new String[6];
+        
+        modelo.setNumRows(0);
+        try{
+            List<Autorizados> lst=alumnos.getAll();
+            
+            for( Autorizados alum :lst){
+                fila[0]=""+alum.getId();
+                fila[1]=""+alum.getDni();
+                fila[2]=""+alum.getNombre();
+                fila[3]=""+alum.getApellido1();
+                fila[4]=""+alum.getApellido2();
+                fila[5]=""+alum.getParentesco().name();
+                
+                modelo.addRow(fila);
+            }
+            
+            
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
     }
 
     /**
@@ -42,8 +96,9 @@ public class frmAutorizado extends javax.swing.JFrame {
         btnadd = new javax.swing.JButton();
         btnactualizar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
+        txtbuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtAutorizado = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,50 +117,81 @@ public class frmAutorizado extends javax.swing.JFrame {
         jLabel6.setText("Parentesco");
 
         btnadd.setText("Añadir");
+        btnadd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnaddActionPerformed(evt);
+            }
+        });
 
         btnactualizar.setText("Actualizar");
+        btnactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnactualizarActionPerformed(evt);
+            }
+        });
 
         btneliminar.setText("Eliminar");
+        btneliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneliminarActionPerformed(evt);
+            }
+        });
+
+        txtbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarActionPerformed(evt);
+            }
+        });
+        txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtbuscarKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtdni, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                    .addComponent(txtid, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtnombre))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
                         .addGap(18, 18, 18)
-                        .addComponent(txtParentesco))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                        .addComponent(txtapellido2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtdni, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(txtid, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtnombre)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtapellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(61, 61, 61)
+                        .addComponent(btnadd)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnactualizar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtParentesco))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                            .addComponent(txtapellido2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtapellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btneliminar)
+                        .addGap(35, 35, 35)
+                        .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)))
                 .addGap(60, 60, 60))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(btnadd)
-                .addGap(75, 75, 75)
-                .addComponent(btnactualizar)
-                .addGap(74, 74, 74)
-                .addComponent(btneliminar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,11 +218,12 @@ public class frmAutorizado extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnadd)
                     .addComponent(btnactualizar)
-                    .addComponent(btneliminar))
+                    .addComponent(btneliminar)
+                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtAutorizado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -155,7 +242,12 @@ public class frmAutorizado extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jtAutorizado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtAutorizadoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtAutorizado);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -175,6 +267,99 @@ public class frmAutorizado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_txtbuscarActionPerformed
+
+    private void txtbuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyPressed
+        // TODO add your handling code here:
+         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            System.out.println("pulsado enter");
+            DefaultTableModel modelo=(DefaultTableModel) jtAutorizado.getModel();
+            TableRowSorter <TableModel> trSorter=new TableRowSorter<TableModel>(modelo);
+            
+            jtAutorizado.setRowSorter(trSorter);
+            
+            if(txtbuscar.getText().length()==0){
+                trSorter.setRowFilter(null);
+            }else{
+                trSorter.setRowFilter(RowFilter.regexFilter(txtbuscar.getText().trim()));
+            }
+            
+        
+        }
+    }//GEN-LAST:event_txtbuscarKeyPressed
+
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+        // TODO add your handling code here:
+        AutorizadosDaoimp auto=AutorizadosDaoimp.getInstance();
+        try{
+            int i =Integer.parseInt((jtAutorizado.getValueAt(jtAutorizado.getSelectedRow(), 0)).toString());
+            auto.delete(i);
+            JOptionPane.showMessageDialog(this, "Curso eliminado correctamente");
+            cargaTabla();
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+    }//GEN-LAST:event_btneliminarActionPerformed
+
+    private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
+        // TODO add your handling code here:
+        AutorizadosDaoimp auto=AutorizadosDaoimp.getInstance();
+
+        try{
+            auto.add(getCampos());
+            JOptionPane.showMessageDialog(this, "Autorizado agregada correctamente");
+            
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+         }
+        cargaTabla();
+    }//GEN-LAST:event_btnaddActionPerformed
+
+    private void jtAutorizadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtAutorizadoMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount()==1){
+            int idSeleccion=Integer.parseInt(jtAutorizado.getValueAt(jtAutorizado.getSelectedRow(), 0).toString());
+            AutorizadoCargaDetalle(idSeleccion);
+        }
+    }//GEN-LAST:event_jtAutorizadoMouseClicked
+
+    private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
+        // TODO add your handling code here:
+        AutorizadosDaoimp auto=AutorizadosDaoimp.getInstance();
+        int i =Integer.parseInt(txtid.getText());
+        try{
+            Autorizados c;
+            c = new Autorizados(txtdni.getText(),txtnombre.getText(),txtapellido1.getText(),txtapellido2.getText(),Parentesco.valueOf(txtParentesco.getText()));
+            auto.update(i,c);
+            JOptionPane.showMessageDialog(this, "Autorizado actualizado correctamente,cierra esta pestaña para ver los cambios");
+            cargaTabla();
+            }catch(Exception e){
+                System.out.println("Error:"+e.getMessage());
+            }
+        
+    }//GEN-LAST:event_btnactualizarActionPerformed
+    public void AutorizadoCargaDetalle(int id){
+        AutorizadosDaoimp auto=AutorizadosDaoimp.getInstance();
+        try{
+        Autorizados c= auto.getById(id);
+        this.id=id;
+        txtid.setText(""+id);
+        txtnombre.setText(""+c.getNombre());
+        txtapellido1.setText(""+c.getApellido1());
+        txtapellido2.setText(""+c.getApellido2());
+        txtParentesco.setText(""+c.getParentesco().name());
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+    }
+    private Autorizados getCampos(){
+        Autorizados c=new Autorizados();
+            c = new Autorizados(txtdni.getText(),txtnombre.getText(),txtapellido1.getText(),txtapellido2.getText(),Parentesco.valueOf(txtParentesco.getText()));
+            return c;
+    }
     /**
      * @param args the command line arguments
      */
@@ -222,10 +407,11 @@ public class frmAutorizado extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtAutorizado;
     private javax.swing.JTextField txtParentesco;
     private javax.swing.JTextField txtapellido1;
     private javax.swing.JTextField txtapellido2;
+    private javax.swing.JTextField txtbuscar;
     private javax.swing.JTextField txtdni;
     private javax.swing.JTextField txtid;
     private javax.swing.JTextField txtnombre;

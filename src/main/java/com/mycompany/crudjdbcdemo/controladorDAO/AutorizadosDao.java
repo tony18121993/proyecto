@@ -19,7 +19,7 @@ public interface AutorizadosDao {
    
    List<Autorizados> getAll() throws SQLException;
    
-   int update(Autorizados c) throws SQLException;
+   int update(int id,Autorizados c) throws SQLException;
    
    void delete(int id) throws SQLException;
    

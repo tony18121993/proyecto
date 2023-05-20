@@ -9,5 +9,5 @@ package com.mycompany.crudjdbcdemo.Entidades;
  * @author TONY
  */
 public enum Parentesco {
-    tutor,tutor1,otros;
+    TUTOR,TUTOR1,OTROS;
 }

@@ -40,7 +40,7 @@ public class MatriculaDaoimp implements MatriculaDao {
             pstm.setInt(1,c.getIdalumno());
             pstm.setInt(2, c.getIdunidad());
             pstm.setString(3,c.getDescripcion());
-            pstm.setString(4, c.getFMatricula().toString());
+            pstm.setDate(4, c.getFMatricula());
             
 
             return pstm.executeUpdate();
@@ -49,7 +49,7 @@ public class MatriculaDaoimp implements MatriculaDao {
 
     @Override
     public Matricula getById(int idmatricula) throws SQLException {
-        String sql="Select * from matricula where id=?"; 
+        String sql="Select * from matricula where idmatricula=?"; 
        Matricula c=new Matricula();
         try(Connection cn= MyDataSource.getConnection();
             PreparedStatement pstm=cn.prepareStatement(sql);){
@@ -96,7 +96,7 @@ public class MatriculaDaoimp implements MatriculaDao {
     }
 
     @Override
-    public int update(Matricula c) throws SQLException {
+    public int update(int id,Matricula c) throws SQLException {
         String sql="update matricula set idalumno=?,idunidad=?,descripcion=?,FMAtricula=? where idmatricula=? ";
         try(Connection cn= MyDataSource.getConnection();
             PreparedStatement pstm=cn.prepareStatement(sql);){
@@ -106,7 +106,22 @@ public class MatriculaDaoimp implements MatriculaDao {
             pstm.setInt(2, c.getIdunidad());
             pstm.setString(3,c.getDescripcion());
             pstm.setString(4, c.getFMatricula().toString());
-            pstm.setInt(5,c.getIdmatricula());
+            pstm.setInt(5,id);
+            return pstm.executeUpdate();
+        }
+    }
+    public int updateBaja(int id,Matricula c) throws SQLException {
+        String sql="update matricula set idalumno=?,idunidad=?,descripcion=?,FMAtricula=?,fBaja=? where idmatricula=? ";
+        try(Connection cn= MyDataSource.getConnection();
+            PreparedStatement pstm=cn.prepareStatement(sql);){
+            
+            
+            pstm.setInt(1,c.getIdalumno());
+            pstm.setInt(2, c.getIdunidad());
+            pstm.setString(3,c.getDescripcion());
+            pstm.setString(4, c.getFMatricula().toString());
+            pstm.setString(5,c.getFBaja().toString());
+            pstm.setInt(6,id);
             return pstm.executeUpdate();
         }
     }

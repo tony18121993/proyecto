@@ -12,8 +12,6 @@ import com.mycompany.crudjdbcdemo.controladorDAO.AulaDaoimp;
 import com.mycompany.crudjdbcdemo.controladorDAO.CursoDAOimp;
 import com.mycompany.crudjdbcdemo.controladorDAO.PersonalDaoimp;
 import com.mycompany.crudjdbcdemo.controladorDAO.UnidadDAOimp;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;

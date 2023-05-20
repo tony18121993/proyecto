@@ -186,7 +186,7 @@ public class jpUnidadAdd extends javax.swing.JPanel {
 
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
         // TODO add your handling code here:
-                UnidadDAOimp cursoaca=UnidadDAOimp.getInstance();
+        UnidadDAOimp cursoaca=UnidadDAOimp.getInstance();
 
         try{
             cursoaca.add(getCampos());

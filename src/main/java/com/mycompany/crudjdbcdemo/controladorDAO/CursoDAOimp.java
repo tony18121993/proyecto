@@ -36,7 +36,7 @@ public class CursoDAOimp implements CursoDAO {
     
     @Override
     public int add(Curso c) throws SQLException {
-        String sql="insert into curso (codigo,nombre,observaciones) values(?,?,?) ";
+        String sql="insert into curso (codigo,nombre,observaciones,idcursoacademico) values(?,?,?,?) ";
         try(Connection cn= MyDataSource.getConnection();
             PreparedStatement pstm=cn.prepareStatement(sql);){
             
@@ -44,6 +44,7 @@ public class CursoDAOimp implements CursoDAO {
             pstm.setString(1,c.getCodigo());
             pstm.setString(2,c.getNombre());
             pstm.setString(3, c.getObservaciones());
+            pstm.setInt(4, c.getIdCursoAcademico());
             return pstm.executeUpdate();
         }
         
@@ -99,7 +100,7 @@ public class CursoDAOimp implements CursoDAO {
 
     @Override
     public int update(int id, Curso c) throws SQLException {
-    String sql="update curso set codigo=?,nombre=?,observaciones=? where id=? ";
+    String sql="update curso set codigo=?,nombre=?,observaciones=?,idcursoacademico=? where id=?";
         try(Connection cn= MyDataSource.getConnection();
             PreparedStatement pstm=cn.prepareStatement(sql);){
             
@@ -107,7 +108,8 @@ public class CursoDAOimp implements CursoDAO {
             pstm.setString(1,c.getCodigo());
             pstm.setString(2,c.getNombre());
             pstm.setString(3, c.getObservaciones());
-            pstm.setInt(4, c.getId());
+            pstm.setInt(4,c.getIdCursoAcademico());
+            pstm.setInt(5, id);
             return pstm.executeUpdate();
         }
 }

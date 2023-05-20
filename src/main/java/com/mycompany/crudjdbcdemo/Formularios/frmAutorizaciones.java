@@ -34,14 +34,15 @@ public class frmAutorizaciones extends javax.swing.JFrame {
         txtañadir = new javax.swing.JButton();
         btnactualizar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
+        btnbuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnltabla = new javax.swing.JTable();
 
         jPanel1.setBackground(new java.awt.Color(0, 255, 255));
 
-        jLabel1.setText("idalumno");
+        jLabel1.setText("alumno");
 
-        jLabel2.setText("idAutorizado");
+        jLabel2.setText("Unidad");
 
         txtañadir.setText("Añadir");
 
@@ -71,8 +72,10 @@ public class frmAutorizaciones extends javax.swing.JFrame {
                 .addComponent(txtañadir)
                 .addGap(67, 67, 67)
                 .addComponent(btnactualizar)
-                .addGap(74, 74, 74)
+                .addGap(47, 47, 47)
                 .addComponent(btneliminar)
+                .addGap(45, 45, 45)
+                .addComponent(btnbuscar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -90,7 +93,8 @@ public class frmAutorizaciones extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtañadir)
                     .addComponent(btnactualizar)
-                    .addComponent(btneliminar))
+                    .addComponent(btneliminar)
+                    .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
         );
 
@@ -170,6 +174,7 @@ public class frmAutorizaciones extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnactualizar;
+    private javax.swing.JButton btnbuscar;
     private javax.swing.JButton btneliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

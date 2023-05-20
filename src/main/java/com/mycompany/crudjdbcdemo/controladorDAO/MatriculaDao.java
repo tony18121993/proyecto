@@ -19,7 +19,7 @@ public interface MatriculaDao {
    
    List<Matricula> getAll() throws SQLException;
    
-   int update(Matricula c) throws SQLException;
+   int update(int id,Matricula c) throws SQLException;
    
    void delete(int idmatricula) throws SQLException;
    

@@ -4,19 +4,86 @@
  */
 package com.mycompany.crudjdbcdemo.Formularios;
 
+import com.mycompany.crudjdbcdemo.Entidades.Alumno;
+import com.mycompany.crudjdbcdemo.Entidades.Matricula;
+import com.mycompany.crudjdbcdemo.Entidades.Unidad;
+import com.mycompany.crudjdbcdemo.controladorDAO.AlumnoDaoimp;
+import com.mycompany.crudjdbcdemo.controladorDAO.MatriculaDaoimp;
+import com.mycompany.crudjdbcdemo.controladorDAO.UnidadDAOimp;
+import java.awt.event.KeyEvent;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author TONY
  */
 public class frmMatricula extends javax.swing.JFrame {
-
+        List<Alumno> alumno =new ArrayList();
+        List<Unidad> uni =new ArrayList();
+        //public int id;
+        
     /**
      * Creates new form frmMatricula
      */
     public frmMatricula() {
         initComponents();
+        cargaComboBoxAlumno();
+        cargaComboBoxUnidad();
+        configTabla();
+        cargaTabla();
     }
-
+    private void configTabla(){
+        String col[]={"MATRICULA","NOMBRE","UNIDAD","DESCRIPCION","FMatricula","FBaja"};
+        DefaultTableModel modelo=new DefaultTableModel(col,0){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+    };
+        jtmatricula.setModel(modelo);
+        
+        
+        
+    }
+    
+    
+    private void cargaTabla(){
+        DefaultTableModel modelo=(DefaultTableModel)jtmatricula.getModel();
+        
+        MatriculaDaoimp matricula=MatriculaDaoimp.getInstance();
+        AlumnoDaoimp alumnos=AlumnoDaoimp.getInstance();
+        UnidadDAOimp unidad=UnidadDAOimp.getInstance();
+        String[] fila=new String[6];
+        
+        modelo.setNumRows(0);
+        try{
+            List<Matricula> lst=matricula.getAll();
+            
+            for( Matricula matri :lst){
+                fila[0]=""+matri.getIdmatricula();
+                Alumno cur=alumnos.getById(matri.getIdalumno());
+                fila[1]=cur.getNombre();
+                Unidad uni=unidad.getById(matri.getIdunidad());
+                fila[2]=uni.getNombre();
+                fila[3]=""+matri.getDescripcion();
+                fila[4]=""+matri.getFMatricula();
+                fila[5]=""+matri.getFBaja();
+                
+                modelo.addRow(fila);
+            }
+            
+            
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,24 +101,25 @@ public class frmMatricula extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtidmatricula = new javax.swing.JTextField();
-        txtidalmuno = new javax.swing.JTextField();
-        txtidunidad = new javax.swing.JTextField();
         txtdescripcion = new javax.swing.JTextField();
         txtFMatriculacion = new javax.swing.JTextField();
         txtFBaja = new javax.swing.JTextField();
         btnadd = new javax.swing.JButton();
         btnactualizar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
+        cbalumno = new javax.swing.JComboBox<>();
+        cbunidad = new javax.swing.JComboBox<>();
+        txtbuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtmatricula = new javax.swing.JTable();
 
         jPanel1.setBackground(new java.awt.Color(0, 255, 255));
 
         jLabel1.setText("idmatricula");
 
-        jLabel2.setText("idalumno");
+        jLabel2.setText("alumno");
 
-        jLabel3.setText("idunidad");
+        jLabel3.setText("unidad");
 
         jLabel4.setText("descripcion");
 
@@ -73,45 +141,66 @@ public class frmMatricula extends javax.swing.JFrame {
         });
 
         btnactualizar.setText("Actualizar");
+        btnactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnactualizarActionPerformed(evt);
+            }
+        });
 
         btneliminar.setText("Eliminar");
+        btneliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneliminarActionPerformed(evt);
+            }
+        });
+
+        txtbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarActionPerformed(evt);
+            }
+        });
+        txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtbuscarKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtidmatricula)
-                            .addComponent(txtidalmuno)
-                            .addComponent(txtidunidad))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(btnadd)
-                        .addGap(51, 51, 51)
-                        .addComponent(btnactualizar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btneliminar)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtdescripcion)
-                        .addComponent(txtFMatriculacion)
-                        .addComponent(txtFBaja, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)))
+                    .addComponent(txtidmatricula, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                    .addComponent(cbalumno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbunidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtdescripcion)
+                    .addComponent(txtFMatriculacion)
+                    .addComponent(txtFBaja, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
                 .addGap(41, 41, 41))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(btnadd)
+                .addGap(28, 28, 28)
+                .addComponent(btnactualizar)
+                .addGap(52, 52, 52)
+                .addComponent(btneliminar)
+                .addGap(46, 46, 46)
+                .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,23 +215,24 @@ public class frmMatricula extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
-                    .addComponent(txtidalmuno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFMatriculacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFMatriculacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbalumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel6)
-                    .addComponent(txtidunidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                    .addComponent(txtFBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbunidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnadd)
                     .addComponent(btnactualizar)
-                    .addComponent(btneliminar))
+                    .addComponent(btneliminar)
+                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtmatricula.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -150,7 +240,7 @@ public class frmMatricula extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "idmatricula", "idalumno", "idunidad", "descripcion", "FMatriculacion", "FBaja"
+                "idmatricula", "alumno", "unidad", "descripcion", "FMatriculacion", "FBaja"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -161,7 +251,12 @@ public class frmMatricula extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jtmatricula.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtmatriculaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtmatricula);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -190,8 +285,157 @@ public class frmMatricula extends javax.swing.JFrame {
 
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
         // TODO add your handling code here:
+         MatriculaDaoimp auto=MatriculaDaoimp.getInstance();
+
+        try{
+            auto.add(getCampos());
+            JOptionPane.showMessageDialog(this, "Matricula agregada correctamente");
+            
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+         }
+        cargaTabla();
     }//GEN-LAST:event_btnaddActionPerformed
 
+    private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
+        // TODO add your handling code here:
+        MatriculaDaoimp auto=MatriculaDaoimp.getInstance();
+
+        int i =Integer.parseInt(txtidmatricula.getText());
+        try{
+            Matricula c;
+            c = new Matricula(Integer.parseInt(txtidmatricula.getText()),alumno.get(cbalumno.getSelectedIndex()).getId(),uni.get(cbunidad.getSelectedIndex()).getId());
+            c.setDescripcion(txtdescripcion.getText());
+            c.setFMatricula(Date.valueOf(txtFMatriculacion.getText()));
+            auto.update(i,c);
+            JOptionPane.showMessageDialog(this, "Matricula actualizada correctamente,cierra esta pestaña para ver los cambios");
+            cargaTabla();
+            }catch(Exception e){
+                System.out.println("Error:"+e.getMessage());
+            }
+        
+    }//GEN-LAST:event_btnactualizarActionPerformed
+
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+        // TODO add your handling code here:
+       MatriculaDaoimp auto=MatriculaDaoimp.getInstance();
+
+        int i =Integer.parseInt(txtidmatricula.getText());
+        try{
+            Matricula c;
+            c = new Matricula(Integer.parseInt(txtidmatricula.getText()),alumno.get(cbalumno.getSelectedIndex()).getId(),uni.get(cbunidad.getSelectedIndex()).getId());
+            c.setDescripcion(txtdescripcion.getText());
+            c.setFMatricula(Date.valueOf(txtFMatriculacion.getText()));
+            c.setFBaja(Date.valueOf(txtFBaja.getText()));
+            auto.updateBaja(i,c);
+            JOptionPane.showMessageDialog(this, "Baja aplicada correctamente,cierra esta pestaña para ver los cambios");
+            cargaTabla();
+            }catch(Exception e){
+                System.out.println("Error:"+e.getMessage());
+            }
+    }//GEN-LAST:event_btneliminarActionPerformed
+
+    private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtbuscarActionPerformed
+
+    private void txtbuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            
+            DefaultTableModel modelo=(DefaultTableModel) jtmatricula.getModel();
+            TableRowSorter <TableModel> trSorter=new TableRowSorter<TableModel>(modelo);
+            
+            jtmatricula.setRowSorter(trSorter);
+            
+            if(txtbuscar.getText().length()==0){
+                trSorter.setRowFilter(null);
+            }else{
+                trSorter.setRowFilter(RowFilter.regexFilter(txtbuscar.getText().trim()));
+            }
+        }
+    }//GEN-LAST:event_txtbuscarKeyPressed
+
+    private void jtmatriculaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtmatriculaMouseClicked
+        // TODO add your handling code here:
+         if(evt.getClickCount()==2){
+             int idSeleccion=Integer.parseInt(jtmatricula.getValueAt(jtmatricula.getSelectedRow(), 0).toString());
+             MatriculaCargaDetalle(idSeleccion);
+        }
+    }//GEN-LAST:event_jtmatriculaMouseClicked
+    public void cargaComboBoxAlumno(){
+        
+        AlumnoDaoimp cursoaca=AlumnoDaoimp.getInstance();
+        try{
+             alumno=cursoaca.getAll();
+            
+            for( Alumno alum:alumno){
+                
+                cbalumno.addItem(alum.getNombre());
+            }
+            }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+}
+    public void cargaComboBoxUnidad(){
+        
+        UnidadDAOimp unidad=UnidadDAOimp.getInstance();
+        try{
+             uni=unidad.getAll();
+            
+            for( Unidad u:uni){
+                
+                cbunidad.addItem(u.getNombre());
+            }
+            }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+}
+    private Matricula getCampos(){
+        Matricula c=new Matricula();
+
+        //c.setIdmatricula(Integer.parseInt(txtidmatricula.getText()));
+        c.setIdalumno(alumno.get(cbalumno.getSelectedIndex()).getId());
+        c.setIdunidad(uni.get(cbunidad.getSelectedIndex()).getId());
+        c.setFMatricula(Date.valueOf(txtFMatriculacion.getText()));
+        c.setFBaja(Date.valueOf(txtFBaja.getText()));
+      
+        return c;
+    }
+     public void MatriculaCargaDetalle(int id){
+         MatriculaDaoimp auto=MatriculaDaoimp.getInstance();
+        try{
+        Matricula c= auto.getById(id);
+        //this.id=id;
+            System.out.println("quecies");
+        txtidmatricula.setText(""+id);
+            System.out.println("hola");
+        int posicion=0;
+        int posicionunidad=0;
+        int idUnidad=c.getIdunidad();
+        int idAlumno=c.getIdalumno();
+        int j;
+        for(j=0;j<alumno.size();j++){
+            Alumno cu=alumno.get(j);
+            if(cu.getId()==idAlumno){
+                posicion=j;
+            }
+        }
+        cbalumno.setSelectedIndex(posicion);
+        for(j=0;j<uni.size();j++){
+            Unidad cu=uni.get(j);
+            if(cu.getId()==idUnidad){
+                posicionunidad=j;
+            }
+        }
+        cbunidad.setSelectedIndex(posicionunidad);
+        txtFMatriculacion.setText(""+c.getFMatricula());
+        txtFBaja.setText(""+c.getFBaja());
+        txtdescripcion.setText(""+c.getDescripcion());
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -231,6 +475,8 @@ public class frmMatricula extends javax.swing.JFrame {
     private javax.swing.JButton btnactualizar;
     private javax.swing.JButton btnadd;
     private javax.swing.JButton btneliminar;
+    private javax.swing.JComboBox<String> cbalumno;
+    private javax.swing.JComboBox<String> cbunidad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -239,12 +485,11 @@ public class frmMatricula extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtmatricula;
     private javax.swing.JTextField txtFBaja;
     private javax.swing.JTextField txtFMatriculacion;
+    private javax.swing.JTextField txtbuscar;
     private javax.swing.JTextField txtdescripcion;
-    private javax.swing.JTextField txtidalmuno;
     private javax.swing.JTextField txtidmatricula;
-    private javax.swing.JTextField txtidunidad;
     // End of variables declaration//GEN-END:variables
 }
