@@ -120,11 +120,35 @@ public class UnidadDAOimp implements UnidadDAO {
     @Override
     public void delete(int id) throws SQLException {
         String sql="delete from unidad where id=?;";
-    try(Connection cn= MyDataSource.getConnection();
+        try(Connection cn= MyDataSource.getConnection();
             PreparedStatement pstm=cn.prepareStatement(sql);){
          pstm.setInt(1,id);
          pstm.executeUpdate();
+        }
     }
+    public List<Unidad> getAllbyCurso(int idcurso) throws SQLException {
+        String sql="Select * from unidad where idcurso=?"; 
+    List<Unidad> badeDatos = new ArrayList<>();
+      Unidad unidad;
+        try(Connection cn= MyDataSource.getConnection();
+            PreparedStatement pstm=cn.prepareStatement(sql);){
+            pstm.setInt(1, idcurso);
+
+            ResultSet rs=pstm.executeQuery();
+            
+            while(rs.next()){
+                unidad=new Unidad();
+                unidad.setId(rs.getInt("id"));
+                unidad.setCodigo(rs.getString("codigo"));
+                unidad.setNombre(rs.getString("nombre"));
+                unidad.setObservaciones(rs.getString("observaciones"));
+                unidad.setIdcurso(rs.getInt("idcurso"));
+                unidad.setIdtutor(rs.getInt("idtutor"));
+                unidad.setIdaula(rs.getInt("idaula"));
+                badeDatos.add(unidad);
+            }
+            
+        }
+        return badeDatos;
     }
-    
 }

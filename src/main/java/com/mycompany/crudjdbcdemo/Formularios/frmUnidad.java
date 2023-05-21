@@ -12,6 +12,8 @@ import com.mycompany.crudjdbcdemo.controladorDAO.AulaDaoimp;
 import com.mycompany.crudjdbcdemo.controladorDAO.CursoDAOimp;
 import com.mycompany.crudjdbcdemo.controladorDAO.PersonalDaoimp;
 import com.mycompany.crudjdbcdemo.controladorDAO.UnidadDAOimp;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +33,14 @@ public class frmUnidad extends javax.swing.JFrame {
     /**
      * Creates new form frmUnidad
      */
-    List<Curso> lstcurso =new ArrayList();
+    
+    List<Curso> lstcursocarga =new ArrayList();
     public frmUnidad() {
         initComponents();
+        cargaComboBox();
         configTabla();
         cargaTabla();
+        generaTablaUnidad();
     }
     private void configTabla(){
         String col[]={"ID","CODIGO","NOMBRE","OBSERVACIONES","CURSO","TUTOR","AULA"};
@@ -47,11 +52,21 @@ public class frmUnidad extends javax.swing.JFrame {
             }
     };
         jtUnidad.setModel(modelo);
-        
-        
-        
     }
-    
+    public void cargaComboBox(){
+        
+        CursoDAOimp cursoaca=CursoDAOimp.getInstance();
+        try{
+             lstcursocarga=cursoaca.getAll();
+            
+            for( Curso curso:lstcursocarga){
+                
+                cbcurso.addItem(curso.getCodigo());
+            }
+            }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+}
     private void cargaTabla(){
         DefaultTableModel modelo=(DefaultTableModel)jtUnidad.getModel();
         AulaDaoimp aulaDAO=AulaDaoimp.getInstance();
@@ -84,6 +99,56 @@ public class frmUnidad extends javax.swing.JFrame {
             System.out.println("Error:"+e.getMessage());
         }
     }
+    private void cargaTabla1(int idcurso){
+        DefaultTableModel modelo=(DefaultTableModel)jtUnidad.getModel();
+        AulaDaoimp aulaDAO=AulaDaoimp.getInstance();
+        UnidadDAOimp cursoaca=UnidadDAOimp.getInstance();
+        CursoDAOimp cursoDAO = CursoDAOimp.getInstance();
+        PersonalDaoimp perDAO =PersonalDaoimp.getInstance();
+        String[] fila=new String[7];
+        
+        modelo.setNumRows(0);
+        try{
+            List<Unidad> lstunidad=cursoaca.getAllbyCurso(idcurso);
+            for( Unidad curso :lstunidad){
+                fila[0]=""+curso.getId();
+                fila[1]=""+curso.getCodigo();
+                fila[2]=""+curso.getNombre();
+                fila[3]=""+curso.getObservaciones();
+                Curso cur=cursoDAO.getById(curso.getIdcurso());
+                fila[4]=cur.getCodigo();
+               ///fila[4]=""+curso.getIdcurso();
+                Personal tutor=perDAO.getById(curso.getIdtutor());
+                fila[5]=tutor.getNombre();
+                //fila[6]=""+curso.getIdaula();
+                Aula au=aulaDAO.getById(curso.getIdaula());
+                fila[6] = au.getCodigo();
+                modelo.addRow(fila);
+            }
+            
+            
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+    }
+    public void generaTablaUnidad(){
+         try{
+         cbcurso.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent event) {
+                if (event.getStateChange() == ItemEvent.SELECTED) {
+                    // Obtener el elemento seleccionado del ComboBox
+                    int idcurso= lstcursocarga.get(cbcurso.getSelectedIndex()).getId();
+                    
+                    // Cargar la tabla correspondiente
+                    cargaTabla1(idcurso);
+                }
+              }
+           });
+         
+         }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -98,6 +163,7 @@ public class frmUnidad extends javax.swing.JFrame {
         txtbuscar = new javax.swing.JTextField();
         btnadd = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
+        cbcurso = new javax.swing.JComboBox<>();
 
         jtUnidad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -155,25 +221,32 @@ public class frmUnidad extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addComponent(btnadd)
-                .addGap(97, 97, 97)
-                .addComponent(btneliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cbcurso, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnadd)
+                        .addGap(90, 90, 90)
+                        .addComponent(btneliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(cbcurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnadd)
-                    .addComponent(btneliminar))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btneliminar)
+                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -290,6 +363,7 @@ public class frmUnidad extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnadd;
     private javax.swing.JButton btneliminar;
+    private javax.swing.JComboBox<String> cbcurso;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtUnidad;
     private javax.swing.JTextField txtbuscar;

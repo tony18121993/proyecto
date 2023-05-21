@@ -73,6 +73,28 @@ public class CursoDAOimp implements CursoDAO {
         }
       return cursoaca;
     }
+     public Curso getByCursoAcademico(int idcursoacademico) throws SQLException {
+            String sql="select * from curso where idcursoacademico=?"; 
+       Curso cursoaca=new Curso();
+        try(Connection cn= MyDataSource.getConnection();
+            PreparedStatement pstm=cn.prepareStatement(sql);){
+            
+            pstm.setInt(1, idcursoacademico);
+            
+            ResultSet rs=pstm.executeQuery();
+            
+            if(rs.next()){
+                
+                cursoaca.setId(rs.getInt("id"));
+                cursoaca.setCodigo(rs.getString("codigo"));
+                cursoaca.setNombre(rs.getString("nombre"));
+                cursoaca.setObservaciones(rs.getString("observaciones"));
+                cursoaca.setIdCursoAcademico(rs.getInt("IdCursoAcademico"));
+                
+            }
+        }
+      return cursoaca;
+    }
 
     @Override
     public List<Curso> getAll() throws SQLException {
@@ -132,6 +154,25 @@ public class CursoDAOimp implements CursoDAO {
 
     @Override
     public List<Curso> getAllbyCursoAcademico(int idcursoacademico) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql="select * from curso where idcursoacademico=?"; 
+    List<Curso> badeDatos = new ArrayList<>();
+       Curso cursoaca;
+        try(Connection cn= MyDataSource.getConnection();
+            PreparedStatement pstm=cn.prepareStatement(sql);){
+            pstm.setInt(1, idcursoacademico);
+            ResultSet rs=pstm.executeQuery();
+            
+            while(rs.next()){
+                cursoaca=new Curso();
+                cursoaca.setId(rs.getInt("id"));
+                cursoaca.setCodigo(rs.getString("codigo"));
+                cursoaca.setNombre(rs.getString("nombre"));
+                cursoaca.setObservaciones(rs.getString("observaciones"));
+                cursoaca.setIdCursoAcademico(rs.getInt("idcursoacademico"));
+                badeDatos.add(cursoaca);
+            }
+            
+        }
+        return badeDatos;
     }
 }

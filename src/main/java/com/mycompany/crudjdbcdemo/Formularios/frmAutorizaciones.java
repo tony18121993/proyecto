@@ -4,6 +4,21 @@
  */
 package com.mycompany.crudjdbcdemo.Formularios;
 
+import com.mycompany.crudjdbcdemo.Entidades.Alumno;
+import com.mycompany.crudjdbcdemo.Entidades.Autorizaciones;
+import com.mycompany.crudjdbcdemo.Entidades.Autorizados;
+import com.mycompany.crudjdbcdemo.controladorDAO.AlumnoDaoimp;
+import com.mycompany.crudjdbcdemo.controladorDAO.AutorizacionesDaoimp;
+import com.mycompany.crudjdbcdemo.controladorDAO.AutorizadosDaoimp;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author TONY
@@ -13,8 +28,54 @@ public class frmAutorizaciones extends javax.swing.JFrame {
     /**
      * Creates new form frmAutorizaciones
      */
+    List<Alumno> lstalumno =new ArrayList();
+    List<Autorizados> lstautorizados =new ArrayList();
     public frmAutorizaciones() {
         initComponents();
+        cargaComboBoxAlumno();
+        cargaComboBoxAutorizados();
+        configTabla();
+        cargaTabla();
+    }
+    private void configTabla(){
+        String col[]={"ALUMNO","AUTORIZADO"};
+        
+        DefaultTableModel modelo=new DefaultTableModel(col,0){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+    };
+        jtautorizaciones.setModel(modelo);
+        
+        
+        
+    }
+    
+    private void cargaTabla(){
+        DefaultTableModel modelo=(DefaultTableModel)jtautorizaciones.getModel();
+        AutorizacionesDaoimp autorizaciones=AutorizacionesDaoimp.getInstance();
+        AlumnoDaoimp alumDAO=AlumnoDaoimp.getInstance();
+        AutorizadosDaoimp autoriDao=AutorizadosDaoimp.getInstance();
+       
+        String[] fila=new String[2];
+        
+        modelo.setNumRows(0);
+        try{
+            List<Autorizaciones> auto=autorizaciones.getAll();
+           
+            for( Autorizaciones curso : auto){
+                Alumno alu=alumDAO.getById(curso.getIdalumno());
+                fila[0]=alu.getNombre();
+                Autorizados tutor=autoriDao.getById(curso.getIdautorizado());
+                fila[1]=tutor.getNombre();
+                modelo.addRow(fila);
+            }
+            
+            
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
     }
 
     /**
@@ -29,26 +90,47 @@ public class frmAutorizaciones extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtidalumno = new javax.swing.JTextField();
-        txtidautorizado = new javax.swing.JTextField();
         txtañadir = new javax.swing.JButton();
         btnactualizar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
-        btnbuscar = new javax.swing.JButton();
+        txtbuscar = new javax.swing.JButton();
+        cbalumno = new javax.swing.JComboBox<>();
+        cbautorizado = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        pnltabla = new javax.swing.JTable();
+        jtautorizaciones = new javax.swing.JTable();
 
         jPanel1.setBackground(new java.awt.Color(0, 255, 255));
 
         jLabel1.setText("alumno");
 
-        jLabel2.setText("Unidad");
+        jLabel2.setText("Autorizado");
 
         txtañadir.setText("Añadir");
+        txtañadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtañadirActionPerformed(evt);
+            }
+        });
 
         btnactualizar.setText("Actualizar");
+        btnactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnactualizarActionPerformed(evt);
+            }
+        });
 
         btneliminar.setText("Eliminar");
+
+        txtbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarActionPerformed(evt);
+            }
+        });
+        txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtbuscarKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -62,21 +144,21 @@ public class frmAutorizaciones extends javax.swing.JFrame {
                         .addGap(197, 197, 197)
                         .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(txtidalumno, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
-                        .addComponent(txtidautorizado, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(109, 109, 109))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(txtañadir)
-                .addGap(67, 67, 67)
-                .addComponent(btnactualizar)
-                .addGap(47, 47, 47)
-                .addComponent(btneliminar)
-                .addGap(45, 45, 45)
-                .addComponent(btnbuscar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(48, 48, 48)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cbalumno, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(103, 103, 103)
+                                .addComponent(cbautorizado, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtañadir)
+                                .addGap(67, 67, 67)
+                                .addComponent(btnactualizar)
+                                .addGap(47, 47, 47)
+                                .addComponent(btneliminar)
+                                .addGap(27, 27, 27)
+                                .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,20 +167,20 @@ public class frmAutorizaciones extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtidalumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtidautorizado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                    .addComponent(cbalumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbautorizado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtañadir)
                     .addComponent(btnactualizar)
                     .addComponent(btneliminar)
-                    .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
         );
 
-        pnltabla.setModel(new javax.swing.table.DefaultTableModel(
+        jtautorizaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -106,7 +188,7 @@ public class frmAutorizaciones extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "idalumno", "idautorizado"
+                "alumno", "autorizado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -117,7 +199,12 @@ public class frmAutorizaciones extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(pnltabla);
+        jtautorizaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtautorizacionesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtautorizaciones);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,6 +224,118 @@ public class frmAutorizaciones extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtbuscarActionPerformed
+
+    private void txtbuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            
+            DefaultTableModel modelo=(DefaultTableModel) jtautorizaciones.getModel();
+            TableRowSorter <TableModel> trSorter=new TableRowSorter<TableModel>(modelo);
+            
+            jtautorizaciones.setRowSorter(trSorter);
+            
+            if(txtbuscar.getText().length()==0){
+                trSorter.setRowFilter(null);
+            }else{
+                trSorter.setRowFilter(RowFilter.regexFilter(txtbuscar.getText().trim()));
+            }
+        }
+    }//GEN-LAST:event_txtbuscarKeyPressed
+
+    private void jtautorizacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtautorizacionesMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount()==2){
+             int idSeleccion=Integer.parseInt(jtautorizaciones.getValueAt(jtautorizaciones.getSelectedRow(), 0).toString());
+             AutorizacionesCargaDetalle(idSeleccion);
+        }
+    }//GEN-LAST:event_jtautorizacionesMouseClicked
+
+    private void txtañadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtañadirActionPerformed
+        // TODO add your handling code here:
+         AutorizacionesDaoimp auto=AutorizacionesDaoimp.getInstance();
+
+        try{
+            auto.add(getCampos());
+            JOptionPane.showMessageDialog(this, "Autorizacion agregada correctamente");
+            
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+         }
+        cargaTabla();
+    }//GEN-LAST:event_txtañadirActionPerformed
+
+    private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
+        // TODO add your handling code here:
+       // AutorizacionesDaoimp auto=AutorizacionesDaoimp.getInstance();
+
+    }//GEN-LAST:event_btnactualizarActionPerformed
+    
+    public void AutorizacionesCargaDetalle(int id){
+         AutorizacionesDaoimp auto=AutorizacionesDaoimp.getInstance();
+        try{
+        Autorizaciones c= auto.getById(id);
+        
+        int posicionalumno=0;
+        int posicionautorizado=0;
+        int idalumno=c.getIdalumno();
+        int idautorizado=c.getIdautorizado();
+        int j;
+        for(j=0;j<lstalumno.size();j++){
+            Alumno cu=lstalumno.get(j);
+            if(cu.getId()==idalumno){
+                posicionalumno=j;
+            }
+        }
+        cbalumno.setSelectedIndex(posicionalumno);
+        for(j=0;j<lstautorizados.size();j++){
+            Autorizados cu=lstautorizados.get(j);
+            if(cu.getId()==idautorizado){
+                posicionautorizado=j;
+            }
+        }
+        cbautorizado.setSelectedIndex(posicionautorizado);
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+    }
+    private Autorizaciones getCampos(){
+        Autorizaciones c=new Autorizaciones();
+
+        //c.setIdmatricula(Integer.parseInt(txtidmatricula.getText()));
+        c.setIdalumno(lstalumno.get(cbalumno.getSelectedIndex()).getId());
+        c.setIdautorizado(lstautorizados.get(cbautorizado.getSelectedIndex()).getId());
+        return c;
+    }
+    public void cargaComboBoxAlumno(){
+        
+        AlumnoDaoimp cursoaca=AlumnoDaoimp.getInstance();
+        try{
+            for( Alumno alum:lstalumno){
+                
+                cbalumno.addItem(alum.getNombre());
+            }
+            }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+}
+    public void cargaComboBoxAutorizados(){
+        
+        AutorizadosDaoimp cursoaca=AutorizadosDaoimp.getInstance();
+        try{
+             
+            
+            for( Autorizados auto:lstautorizados){
+                
+                cbalumno.addItem(auto.getNombre());
+            }
+            }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+}
     /**
      * @param args the command line arguments
      */
@@ -174,15 +373,15 @@ public class frmAutorizaciones extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnactualizar;
-    private javax.swing.JButton btnbuscar;
     private javax.swing.JButton btneliminar;
+    private javax.swing.JComboBox<String> cbalumno;
+    private javax.swing.JComboBox<String> cbautorizado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable pnltabla;
+    private javax.swing.JTable jtautorizaciones;
     private javax.swing.JButton txtañadir;
-    private javax.swing.JTextField txtidalumno;
-    private javax.swing.JTextField txtidautorizado;
+    private javax.swing.JButton txtbuscar;
     // End of variables declaration//GEN-END:variables
 }

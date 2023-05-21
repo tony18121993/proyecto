@@ -8,7 +8,10 @@ import com.mycompany.crudjdbcdemo.Entidades.Curso;
 import com.mycompany.crudjdbcdemo.Entidades.CursoAcademico;
 import com.mycompany.crudjdbcdemo.controladorDAO.CursoAcademicoDAOimp;
 import com.mycompany.crudjdbcdemo.controladorDAO.CursoDAOimp;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -26,10 +29,14 @@ public class frmCurso extends javax.swing.JFrame {
     /**
      * Creates new form frmCurso
      */
+        List<CursoAcademico> ca=new ArrayList();
+
     public frmCurso() {
         initComponents();
+        cargaComboBox();
         configTabla();
         cargaTabla();
+        generaTablaCurso();
     }
     
     private void configTabla(){
@@ -46,7 +53,18 @@ public class frmCurso extends javax.swing.JFrame {
         
         
     }
-    
+    public void cargaComboBox(){
+        
+        CursoAcademicoDAOimp cursoaca=CursoAcademicoDAOimp.getInstance();
+        try{
+             ca=cursoaca.getAll();
+             for( CursoAcademico curso:ca){
+                cbcursoacademico.addItem(curso.getDescripcion());
+            }
+            }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+}
     private void cargaTabla(){
         DefaultTableModel modelo=(DefaultTableModel)jtCurso.getModel();
         CursoAcademicoDAOimp curacaDAO=CursoAcademicoDAOimp.getInstance();
@@ -73,6 +91,50 @@ public class frmCurso extends javax.swing.JFrame {
             System.out.println("Error:"+e.getMessage());
         }
     }
+     private void cargaTabla1(int idcursoacademico){
+        DefaultTableModel modelo=(DefaultTableModel)jtCurso.getModel();
+        CursoAcademicoDAOimp curacaDAO=CursoAcademicoDAOimp.getInstance();
+        CursoDAOimp cursoaca=CursoDAOimp.getInstance();
+        String[] fila=new String[5];
+        
+        modelo.setNumRows(0);
+        try{
+            List<Curso> lstcurso=cursoaca.getAllbyCursoAcademico(idcursoacademico);
+            
+            for( Curso curso :lstcurso){
+                fila[0]=""+curso.getId();
+                fila[1]=""+curso.getCodigo();
+                fila[2]=""+curso.getNombre();
+                fila[3]=""+curso.getObservaciones();
+                CursoAcademico cacademico =curacaDAO.getById(curso.getIdCursoAcademico());
+                fila[4]=cacademico.getDescripcion();
+                
+                modelo.addRow(fila);
+            }
+            
+            
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+    }
+     public void generaTablaCurso(){
+         try{
+         cbcursoacademico.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent event) {
+                if (event.getStateChange() == ItemEvent.SELECTED) {
+                    // Obtener el elemento seleccionado del ComboBox
+                    int idcursoacademico= ca.get(cbcursoacademico.getSelectedIndex()).getId();
+                    
+                    // Cargar la tabla correspondiente
+                    cargaTabla1(idcursoacademico);
+                }
+              }
+           });
+         
+         }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,6 +150,7 @@ public class frmCurso extends javax.swing.JFrame {
         txtbuscar = new javax.swing.JTextField();
         btnAnadir = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
+        cbcursoacademico = new javax.swing.JComboBox<>();
 
         jPanel1.setBackground(new java.awt.Color(51, 255, 255));
 
@@ -151,8 +214,9 @@ public class frmCurso extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cbcursoacademico, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(btnAnadir)
@@ -164,7 +228,9 @@ public class frmCurso extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(87, 87, 87)
+                .addGap(18, 18, 18)
+                .addComponent(cbcursoacademico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAnadir)
@@ -299,6 +365,7 @@ public class frmCurso extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnadir;
     private javax.swing.JButton btneliminar;
+    private javax.swing.JComboBox<String> cbcursoacademico;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtCurso;
