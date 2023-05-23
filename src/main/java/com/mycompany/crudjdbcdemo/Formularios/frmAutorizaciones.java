@@ -62,13 +62,17 @@ public class frmAutorizaciones extends javax.swing.JFrame {
         
         modelo.setNumRows(0);
         try{
+            System.out.println("omar");
             List<Autorizaciones> auto=autorizaciones.getAll();
-           
+            System.out.println("toni");
             for( Autorizaciones curso : auto){
                 Alumno alu=alumDAO.getById(curso.getIdalumno());
                 fila[0]=alu.getNombre();
+                System.out.println("hola");
                 Autorizados tutor=autoriDao.getById(curso.getIdautorizado());
+                System.out.println("quedices");
                 fila[1]=tutor.getNombre();
+                
                 modelo.addRow(fila);
             }
             
@@ -91,11 +95,10 @@ public class frmAutorizaciones extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtañadir = new javax.swing.JButton();
-        btnactualizar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
-        txtbuscar = new javax.swing.JButton();
         cbalumno = new javax.swing.JComboBox<>();
         cbautorizado = new javax.swing.JComboBox<>();
+        txtbuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtautorizaciones = new javax.swing.JTable();
 
@@ -112,20 +115,8 @@ public class frmAutorizaciones extends javax.swing.JFrame {
             }
         });
 
-        btnactualizar.setText("Actualizar");
-        btnactualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnactualizarActionPerformed(evt);
-            }
-        });
-
         btneliminar.setText("Eliminar");
 
-        txtbuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtbuscarActionPerformed(evt);
-            }
-        });
         txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtbuscarKeyPressed(evt);
@@ -152,13 +143,11 @@ public class frmAutorizaciones extends javax.swing.JFrame {
                                 .addComponent(cbautorizado, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtañadir)
-                                .addGap(67, 67, 67)
-                                .addComponent(btnactualizar)
-                                .addGap(47, 47, 47)
+                                .addGap(102, 102, 102)
                                 .addComponent(btneliminar)
-                                .addGap(27, 27, 27)
-                                .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(39, Short.MAX_VALUE))
+                                .addGap(121, 121, 121)
+                                .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,9 +163,8 @@ public class frmAutorizaciones extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtañadir)
-                    .addComponent(btnactualizar)
                     .addComponent(btneliminar)
-                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
         );
 
@@ -224,28 +212,6 @@ public class frmAutorizaciones extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_txtbuscarActionPerformed
-
-    private void txtbuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyPressed
-        // TODO add your handling code here:
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
-            
-            DefaultTableModel modelo=(DefaultTableModel) jtautorizaciones.getModel();
-            TableRowSorter <TableModel> trSorter=new TableRowSorter<TableModel>(modelo);
-            
-            jtautorizaciones.setRowSorter(trSorter);
-            
-            if(txtbuscar.getText().length()==0){
-                trSorter.setRowFilter(null);
-            }else{
-                trSorter.setRowFilter(RowFilter.regexFilter(txtbuscar.getText().trim()));
-            }
-        }
-    }//GEN-LAST:event_txtbuscarKeyPressed
-
     private void jtautorizacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtautorizacionesMouseClicked
         // TODO add your handling code here:
         if(evt.getClickCount()==2){
@@ -268,11 +234,22 @@ public class frmAutorizaciones extends javax.swing.JFrame {
         cargaTabla();
     }//GEN-LAST:event_txtañadirActionPerformed
 
-    private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
+    private void txtbuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyPressed
         // TODO add your handling code here:
-       // AutorizacionesDaoimp auto=AutorizacionesDaoimp.getInstance();
-
-    }//GEN-LAST:event_btnactualizarActionPerformed
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            
+            DefaultTableModel modelo=(DefaultTableModel) jtautorizaciones.getModel();
+            TableRowSorter <TableModel> trSorter=new TableRowSorter<TableModel>(modelo);
+            
+            jtautorizaciones.setRowSorter(trSorter);
+            
+            if(txtbuscar.getText().length()==0){
+                trSorter.setRowFilter(null);
+            }else{
+                trSorter.setRowFilter(RowFilter.regexFilter(txtbuscar.getText().trim()));
+            }
+        }
+    }//GEN-LAST:event_txtbuscarKeyPressed
     
     public void AutorizacionesCargaDetalle(int id){
          AutorizacionesDaoimp auto=AutorizacionesDaoimp.getInstance();
@@ -313,7 +290,9 @@ public class frmAutorizaciones extends javax.swing.JFrame {
     public void cargaComboBoxAlumno(){
         
         AlumnoDaoimp cursoaca=AlumnoDaoimp.getInstance();
+        
         try{
+            lstalumno=cursoaca.getAll();
             for( Alumno alum:lstalumno){
                 
                 cbalumno.addItem(alum.getNombre());
@@ -327,10 +306,10 @@ public class frmAutorizaciones extends javax.swing.JFrame {
         AutorizadosDaoimp cursoaca=AutorizadosDaoimp.getInstance();
         try{
              
-            
+            lstautorizados=cursoaca.getAll();
             for( Autorizados auto:lstautorizados){
-                
-                cbalumno.addItem(auto.getNombre());
+                System.out.println("quedices");
+                cbautorizado.addItem(auto.getNombre());
             }
             }catch(Exception e){
             System.out.println("Error:"+e.getMessage());
@@ -372,7 +351,6 @@ public class frmAutorizaciones extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnactualizar;
     private javax.swing.JButton btneliminar;
     private javax.swing.JComboBox<String> cbalumno;
     private javax.swing.JComboBox<String> cbautorizado;
@@ -382,6 +360,6 @@ public class frmAutorizaciones extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtautorizaciones;
     private javax.swing.JButton txtañadir;
-    private javax.swing.JButton txtbuscar;
+    private javax.swing.JTextField txtbuscar;
     // End of variables declaration//GEN-END:variables
 }

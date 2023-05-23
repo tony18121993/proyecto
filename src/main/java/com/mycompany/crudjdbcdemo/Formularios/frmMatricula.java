@@ -10,6 +10,8 @@ import com.mycompany.crudjdbcdemo.Entidades.Unidad;
 import com.mycompany.crudjdbcdemo.controladorDAO.AlumnoDaoimp;
 import com.mycompany.crudjdbcdemo.controladorDAO.MatriculaDaoimp;
 import com.mycompany.crudjdbcdemo.controladorDAO.UnidadDAOimp;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -36,8 +38,10 @@ public class frmMatricula extends javax.swing.JFrame {
         initComponents();
         cargaComboBoxAlumno();
         cargaComboBoxUnidad();
+        cargaComboBoxFiltrarUnidad();
         configTabla();
         cargaTabla();
+        generaTablaCurso();
     }
     private void configTabla(){
         String col[]={"MATRICULA","NOMBRE","UNIDAD","DESCRIPCION","FMatricula","FBaja"};
@@ -52,8 +56,53 @@ public class frmMatricula extends javax.swing.JFrame {
         
         
     }
-    
-    
+    public void generaTablaCurso(){
+         try{
+         cbfiltrarunidad.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent event) {
+                if (event.getStateChange() == ItemEvent.SELECTED) {
+                    // Obtener el elemento seleccionado del ComboBox
+                    int idunidad= uni.get(cbfiltrarunidad.getSelectedIndex()).getId();
+                    
+                    // Cargar la tabla correspondiente
+                    cargaTabla1(idunidad);
+                }
+              }
+           });
+         
+         }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+     }
+    private void cargaTabla1(int idunidad){
+        DefaultTableModel modelo=(DefaultTableModel)jtmatricula.getModel();
+        UnidadDAOimp unidad=UnidadDAOimp.getInstance();
+        MatriculaDaoimp matricula=MatriculaDaoimp.getInstance();
+        AlumnoDaoimp alumnos=AlumnoDaoimp.getInstance();
+        String[] fila=new String[6];
+        
+        modelo.setNumRows(0);
+        try{
+            List<Matricula> lstcurso=matricula.getAllbyUnidad(idunidad);
+            
+            for( Matricula matri :lstcurso){
+                fila[0]=""+matri.getIdmatricula();
+                Alumno cur=alumnos.getById(matri.getIdalumno());
+                fila[1]=cur.getNombre();
+                Unidad uni=unidad.getById(matri.getIdunidad());
+                fila[2]=uni.getNombre();
+                fila[3]=""+matri.getDescripcion();
+                fila[4]=""+matri.getFMatricula();
+                fila[5]=""+matri.getFBaja();
+                
+                modelo.addRow(fila);
+            }
+            
+            
+        }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+    }
     private void cargaTabla(){
         DefaultTableModel modelo=(DefaultTableModel)jtmatricula.getModel();
         
@@ -110,6 +159,8 @@ public class frmMatricula extends javax.swing.JFrame {
         cbalumno = new javax.swing.JComboBox<>();
         cbunidad = new javax.swing.JComboBox<>();
         txtbuscar = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        cbfiltrarunidad = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtmatricula = new javax.swing.JTable();
 
@@ -117,9 +168,9 @@ public class frmMatricula extends javax.swing.JFrame {
 
         jLabel1.setText("idmatricula");
 
-        jLabel2.setText("alumno");
+        jLabel2.setText("alumno*");
 
-        jLabel3.setText("unidad");
+        jLabel3.setText("unidad*");
 
         jLabel4.setText("descripcion");
 
@@ -147,7 +198,7 @@ public class frmMatricula extends javax.swing.JFrame {
             }
         });
 
-        btneliminar.setText("Eliminar");
+        btneliminar.setText("Baja");
         btneliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btneliminarActionPerformed(evt);
@@ -165,21 +216,41 @@ public class frmMatricula extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("filtrar por: ");
+
+        cbfiltrarunidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbfiltrarunidadActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(btnadd)
+                .addGap(28, 28, 28)
+                .addComponent(btnactualizar)
+                .addGap(52, 52, 52)
+                .addComponent(btneliminar)
+                .addGap(46, 46, 46)
+                .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtidmatricula, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                    .addComponent(txtidmatricula, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                     .addComponent(cbalumno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbunidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cbunidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbfiltrarunidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -191,16 +262,6 @@ public class frmMatricula extends javax.swing.JFrame {
                     .addComponent(txtFMatriculacion)
                     .addComponent(txtFBaja, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
                 .addGap(41, 41, 41))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(btnadd)
-                .addGap(28, 28, 28)
-                .addComponent(btnactualizar)
-                .addGap(52, 52, 52)
-                .addComponent(btneliminar)
-                .addGap(46, 46, 46)
-                .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,7 +284,11 @@ public class frmMatricula extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(txtFBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbunidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(cbfiltrarunidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnadd)
                     .addComponent(btnactualizar)
@@ -307,6 +372,11 @@ public class frmMatricula extends javax.swing.JFrame {
             c = new Matricula(Integer.parseInt(txtidmatricula.getText()),alumno.get(cbalumno.getSelectedIndex()).getId(),uni.get(cbunidad.getSelectedIndex()).getId());
             c.setDescripcion(txtdescripcion.getText());
             c.setFMatricula(Date.valueOf(txtFMatriculacion.getText()));
+            if (txtFBaja.getText().isEmpty()|| txtFBaja.equals("null")) {
+                c.setFBaja(null);  
+            }else{
+                c.setFBaja(Date.valueOf(txtFBaja.getText()));
+            }
             auto.update(i,c);
             JOptionPane.showMessageDialog(this, "Matricula actualizada correctamente,cierra esta pestaña para ver los cambios");
             cargaTabla();
@@ -326,7 +396,11 @@ public class frmMatricula extends javax.swing.JFrame {
             c = new Matricula(Integer.parseInt(txtidmatricula.getText()),alumno.get(cbalumno.getSelectedIndex()).getId(),uni.get(cbunidad.getSelectedIndex()).getId());
             c.setDescripcion(txtdescripcion.getText());
             c.setFMatricula(Date.valueOf(txtFMatriculacion.getText()));
-            c.setFBaja(Date.valueOf(txtFBaja.getText()));
+            if (txtFBaja.getText().isEmpty()|| txtFBaja.equals(null)) {
+                c.setFBaja(null);  
+            }else{
+                c.setFBaja(Date.valueOf(txtFBaja.getText()));
+            }
             auto.updateBaja(i,c);
             JOptionPane.showMessageDialog(this, "Baja aplicada correctamente,cierra esta pestaña para ver los cambios");
             cargaTabla();
@@ -363,6 +437,10 @@ public class frmMatricula extends javax.swing.JFrame {
              MatriculaCargaDetalle(idSeleccion);
         }
     }//GEN-LAST:event_jtmatriculaMouseClicked
+
+    private void cbfiltrarunidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbfiltrarunidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbfiltrarunidadActionPerformed
     public void cargaComboBoxAlumno(){
         
         AlumnoDaoimp cursoaca=AlumnoDaoimp.getInstance();
@@ -391,14 +469,35 @@ public class frmMatricula extends javax.swing.JFrame {
             System.out.println("Error:"+e.getMessage());
         }
 }
+     public void cargaComboBoxFiltrarUnidad(){
+        
+        UnidadDAOimp unidad=UnidadDAOimp.getInstance();
+        try{
+             uni=unidad.getAll();
+            
+            for( Unidad u:uni){
+                
+                cbfiltrarunidad.addItem(u.getNombre());
+            }
+            }catch(Exception e){
+            System.out.println("Error:"+e.getMessage());
+        }
+}
+    
     private Matricula getCampos(){
         Matricula c=new Matricula();
 
         //c.setIdmatricula(Integer.parseInt(txtidmatricula.getText()));
         c.setIdalumno(alumno.get(cbalumno.getSelectedIndex()).getId());
         c.setIdunidad(uni.get(cbunidad.getSelectedIndex()).getId());
+        c.setDescripcion(txtdescripcion.getText());
         c.setFMatricula(Date.valueOf(txtFMatriculacion.getText()));
-        c.setFBaja(Date.valueOf(txtFBaja.getText()));
+        if (txtFBaja.getText().isEmpty()|| txtFBaja.equals(null)) {
+                c.setFBaja(null);  
+            }else{
+                c.setFBaja(Date.valueOf(txtFBaja.getText()));
+            }
+        
       
         return c;
     }
@@ -430,7 +529,12 @@ public class frmMatricula extends javax.swing.JFrame {
         }
         cbunidad.setSelectedIndex(posicionunidad);
         txtFMatriculacion.setText(""+c.getFMatricula());
-        txtFBaja.setText(""+c.getFBaja());
+        if (c.getFBaja()==null) {
+                txtFBaja.setText("");
+            }else{
+                txtFBaja.setText(""+c.getFBaja());
+            }
+        
         txtdescripcion.setText(""+c.getDescripcion());
         }catch(Exception e){
             System.out.println("Error:"+e.getMessage());
@@ -476,6 +580,7 @@ public class frmMatricula extends javax.swing.JFrame {
     private javax.swing.JButton btnadd;
     private javax.swing.JButton btneliminar;
     private javax.swing.JComboBox<String> cbalumno;
+    private javax.swing.JComboBox<String> cbfiltrarunidad;
     private javax.swing.JComboBox<String> cbunidad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -483,6 +588,7 @@ public class frmMatricula extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtmatricula;

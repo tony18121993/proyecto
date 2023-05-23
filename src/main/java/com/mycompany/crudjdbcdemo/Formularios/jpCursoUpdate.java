@@ -86,17 +86,18 @@ public class jpCursoUpdate extends javax.swing.JPanel {
         txtid = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         cbcursoacademico = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(0, 255, 255));
 
         pnlDetalle.setBackground(new java.awt.Color(0, 255, 255));
 
-        jLabel2.setText("Codigo");
+        jLabel2.setText("Codigo*");
 
-        jLabel3.setText("Nombre");
+        jLabel3.setText("Nombre*");
 
-        jLabel4.setText("Observaciones");
+        jLabel4.setText("Observaciones*");
 
         jLabel5.setText("id");
 
@@ -119,7 +120,9 @@ public class jpCursoUpdate extends javax.swing.JPanel {
             }
         });
 
-        jLabel6.setText("CursoAcademico");
+        jLabel6.setText("CursoAcademico*");
+
+        jLabel1.setText("* Campos Obligatorios");
 
         javax.swing.GroupLayout pnlDetalleLayout = new javax.swing.GroupLayout(pnlDetalle);
         pnlDetalle.setLayout(pnlDetalleLayout);
@@ -159,6 +162,10 @@ public class jpCursoUpdate extends javax.swing.JPanel {
                         .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDetalleLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48))
         );
         pnlDetalleLayout.setVerticalGroup(
             pnlDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,7 +188,9 @@ public class jpCursoUpdate extends javax.swing.JPanel {
                     .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(34, 34, 34)
                 .addComponent(btnUpdate)
                 .addGap(38, 38, 38))
         );
@@ -241,6 +250,7 @@ public class jpCursoUpdate extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbcursoacademico;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

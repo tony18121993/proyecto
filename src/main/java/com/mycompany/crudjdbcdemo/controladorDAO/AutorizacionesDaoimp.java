@@ -58,8 +58,8 @@ public class AutorizacionesDaoimp implements AutorizacionesDao {
             
             if(rs.next()){
                 
-                c.setIdalumno(rs.getInt("id"));
-                c.setIdautorizado(rs.getInt("dni"));
+                c.setIdalumno(rs.getInt("idalumno"));
+                c.setIdautorizado(rs.getInt("idautorizado"));
             }
         }
       return c;
@@ -76,8 +76,8 @@ public class AutorizacionesDaoimp implements AutorizacionesDao {
             
             while(rs.next()){
                 c=new Autorizaciones();
-                c.setIdalumno(rs.getInt("id"));
-                c.setIdautorizado(rs.getInt("dni"));
+                c.setIdalumno(rs.getInt("idalumno"));
+                c.setIdautorizado(rs.getInt("idautorizado"));
                 
                 badeDatos.add(c);
             }

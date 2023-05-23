@@ -86,13 +86,13 @@ public class jpPersonalUpdate extends javax.swing.JPanel {
 
         jLabel14.setText("id");
 
-        jLabel15.setText("nombre");
+        jLabel15.setText("nombre*");
 
-        jLabel16.setText("dni");
+        jLabel16.setText("dni*");
 
-        jLabel17.setText("apellido1");
+        jLabel17.setText("apellido1*");
 
-        jLabel18.setText("apellido2");
+        jLabel18.setText("apellido2*");
 
         jLabel19.setText("direccion");
 
@@ -106,7 +106,7 @@ public class jpPersonalUpdate extends javax.swing.JPanel {
 
         jLabel24.setText("email");
 
-        jLabel25.setText("tipo");
+        jLabel25.setText("tipo*");
 
         txtid1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,7 +246,7 @@ public class jpPersonalUpdate extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 546, Short.MAX_VALUE)
+            .addGap(0, 551, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -303,31 +303,18 @@ public class jpPersonalUpdate extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnupdate;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel pnldatos;
     private javax.swing.JPanel pnldatos1;
     private javax.swing.JTextField txtapellido1;
     private javax.swing.JTextField txtapellido2;
@@ -335,7 +322,6 @@ public class jpPersonalUpdate extends javax.swing.JPanel {
     private javax.swing.JTextField txtdireccion;
     private javax.swing.JTextField txtdni;
     private javax.swing.JTextField txtemail;
-    private javax.swing.JTextField txtid;
     private javax.swing.JTextField txtid1;
     private javax.swing.JTextField txtnombre;
     private javax.swing.JTextField txtpoblacion;

@@ -65,6 +65,7 @@ public class MatriculaDaoimp implements MatriculaDao {
                 c.setIdunidad(rs.getInt("idunidad"));
                 c.setDescripcion(rs.getString("descripcion"));
                 c.setFMatricula(rs.getDate("FMatricula"));
+                c.setFBaja(rs.getDate("fBaja"));
                 
             }
         }
@@ -87,6 +88,7 @@ public class MatriculaDaoimp implements MatriculaDao {
                 c.setIdunidad(rs.getInt("idunidad"));
                 c.setDescripcion(rs.getString("descripcion"));  
                 c.setFMatricula(rs.getDate("FMatricula"));
+                c.setFBaja(rs.getDate("fBaja"));
 
                 badeDatos.add(c);
             }
@@ -157,5 +159,28 @@ public class MatriculaDaoimp implements MatriculaDao {
     }
     return badeDatos;
     }
-    
+     public List<Matricula> getAllbyUnidad(int idunidad) throws SQLException {
+        String sql="select * from matricula where idunidad=?"; 
+    List<Matricula> badeDatos = new ArrayList<>();
+       Matricula c;
+        try(Connection cn= MyDataSource.getConnection();
+            PreparedStatement pstm=cn.prepareStatement(sql);){
+            pstm.setInt(1, idunidad);
+            ResultSet rs=pstm.executeQuery();
+            
+            while(rs.next()){
+                c=new Matricula();
+                c.setIdmatricula(rs.getInt("idmatricula"));
+                c.setIdalumno(rs.getInt("idalumno"));
+                c.setIdunidad(rs.getInt("idunidad"));
+                c.setDescripcion(rs.getString("descripcion"));  
+                c.setFMatricula(rs.getDate("FMAtricula"));
+                badeDatos.add(c);
+            }
+            
+        }
+        return badeDatos;
+    }
 }
+    
+

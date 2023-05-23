@@ -8,6 +8,7 @@ import com.mycompany.crudjdbcdemo.Entidades.Autorizados;
 import com.mycompany.crudjdbcdemo.Entidades.Parentesco;
 import com.mycompany.crudjdbcdemo.controladorDAO.AutorizadosDaoimp;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -21,11 +22,12 @@ import javax.swing.table.TableRowSorter;
  */
 public class frmAutorizado extends javax.swing.JFrame {
     public int id;
-    /**
+    List<String> ca =new ArrayList();    /**
      * Creates new form frmAutorizado
      */
     public frmAutorizado() {
         initComponents();
+        añadiralista();
         configTabla();
         cargaTabla();
     }
@@ -92,11 +94,11 @@ public class frmAutorizado extends javax.swing.JFrame {
         txtnombre = new javax.swing.JTextField();
         txtapellido1 = new javax.swing.JTextField();
         txtapellido2 = new javax.swing.JTextField();
-        txtParentesco = new javax.swing.JTextField();
         btnadd = new javax.swing.JButton();
         btnactualizar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
         txtbuscar = new javax.swing.JTextField();
+        cbparentesco = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtAutorizado = new javax.swing.JTable();
 
@@ -106,15 +108,15 @@ public class frmAutorizado extends javax.swing.JFrame {
 
         jLabel1.setText("id");
 
-        jLabel2.setText("dni");
+        jLabel2.setText("dni*");
 
-        jLabel3.setText("nombre");
+        jLabel3.setText("nombre*");
 
-        jLabel4.setText("apellido1");
+        jLabel4.setText("apellido1*");
 
-        jLabel5.setText("apellido2");
+        jLabel5.setText("apellido2*");
 
-        jLabel6.setText("Parentesco");
+        jLabel6.setText("Parentesco*");
 
         btnadd.setText("Añadir");
         btnadd.addActionListener(new java.awt.event.ActionListener() {
@@ -148,6 +150,8 @@ public class frmAutorizado extends javax.swing.JFrame {
             }
         });
 
+        cbparentesco.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TUTOR1", "TUTOR2", "OTROS" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -171,13 +175,13 @@ public class frmAutorizado extends javax.swing.JFrame {
                         .addComponent(btnadd)
                         .addGap(33, 33, 33)
                         .addComponent(btnactualizar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel6)
                             .addGap(18, 18, 18)
-                            .addComponent(txtParentesco))
+                            .addComponent(cbparentesco, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
@@ -213,7 +217,7 @@ public class frmAutorizado extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel6)
                     .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbparentesco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnadd)
@@ -297,7 +301,7 @@ public class frmAutorizado extends javax.swing.JFrame {
         try{
             int i =Integer.parseInt((jtAutorizado.getValueAt(jtAutorizado.getSelectedRow(), 0)).toString());
             auto.delete(i);
-            JOptionPane.showMessageDialog(this, "Curso eliminado correctamente");
+            JOptionPane.showMessageDialog(this, "Autorizado eliminado correctamente");
             cargaTabla();
         }catch(Exception e){
             System.out.println("Error:"+e.getMessage());
@@ -310,7 +314,7 @@ public class frmAutorizado extends javax.swing.JFrame {
 
         try{
             auto.add(getCampos());
-            JOptionPane.showMessageDialog(this, "Autorizado agregada correctamente");
+            JOptionPane.showMessageDialog(this, "Autorizado agregado correctamente");
             
         }catch(Exception e){
             System.out.println("Error:"+e.getMessage());
@@ -330,9 +334,13 @@ public class frmAutorizado extends javax.swing.JFrame {
         // TODO add your handling code here:
         AutorizadosDaoimp auto=AutorizadosDaoimp.getInstance();
         int i =Integer.parseInt(txtid.getText());
+        int posicion=cbparentesco.getSelectedIndex();
         try{
             Autorizados c;
-            c = new Autorizados(txtdni.getText(),txtnombre.getText(),txtapellido1.getText(),txtapellido2.getText(),Parentesco.valueOf(txtParentesco.getText()));
+            System.out.println("hoila");
+            c = new Autorizados(txtdni.getText(),txtnombre.getText(),txtapellido1.getText(),txtapellido2.getText(),convertirACategoria( ca.get(posicion)));
+            System.out.println(i);
+            System.out.println(c);
             auto.update(i,c);
             JOptionPane.showMessageDialog(this, "Autorizado actualizado correctamente,cierra esta pestaña para ver los cambios");
             cargaTabla();
@@ -341,25 +349,58 @@ public class frmAutorizado extends javax.swing.JFrame {
             }
         
     }//GEN-LAST:event_btnactualizarActionPerformed
+    public void añadiralista(){
+        ca.add("TUTOR1");
+        ca.add("TUTOR2");
+        ca.add("OTROS");
+    }
     public void AutorizadoCargaDetalle(int id){
         AutorizadosDaoimp auto=AutorizadosDaoimp.getInstance();
         try{
         Autorizados c= auto.getById(id);
         this.id=id;
         txtid.setText(""+id);
+        txtdni.setText(""+c.getDni());
         txtnombre.setText(""+c.getNombre());
         txtapellido1.setText(""+c.getApellido1());
         txtapellido2.setText(""+c.getApellido2());
-        txtParentesco.setText(""+c.getParentesco().name());
+        
+        
+        int posicion=0;
+        int j;
+        for(j=0;j<ca.size();j++){
+            if(ca.get(j).equalsIgnoreCase(c.getParentesco().toString())){
+                posicion=j;
+            }
+            cbparentesco.setSelectedIndex(posicion);
+        }
+        
+        
         }catch(Exception e){
             System.out.println("Error:"+e.getMessage());
         }
     }
+    public static Parentesco convertirACategoria(String cadena) {
+        switch (cadena) {
+            case "TUTOR1":
+                return Parentesco.TUTOR1;
+            case "TUTOR2":
+                return Parentesco.TUTOR2;
+            case "OTROS":
+                return Parentesco.OTROS;        
+            default:
+                throw new IllegalArgumentException("Valor de parentesco no válido: " + cadena);
+        }
+    }
     private Autorizados getCampos(){
         Autorizados c=new Autorizados();
-            c = new Autorizados(txtdni.getText(),txtnombre.getText(),txtapellido1.getText(),txtapellido2.getText(),Parentesco.valueOf(txtParentesco.getText()));
+            int posicion=cbparentesco.getSelectedIndex();
+
+            c = new Autorizados(txtdni.getText(),txtnombre.getText(),txtapellido1.getText(),txtapellido2.getText(),convertirACategoria( ca.get(posicion)));
+            
             return c;
     }
+     
     /**
      * @param args the command line arguments
      */
@@ -399,6 +440,7 @@ public class frmAutorizado extends javax.swing.JFrame {
     private javax.swing.JButton btnactualizar;
     private javax.swing.JButton btnadd;
     private javax.swing.JButton btneliminar;
+    private javax.swing.JComboBox<String> cbparentesco;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -408,7 +450,6 @@ public class frmAutorizado extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtAutorizado;
-    private javax.swing.JTextField txtParentesco;
     private javax.swing.JTextField txtapellido1;
     private javax.swing.JTextField txtapellido2;
     private javax.swing.JTextField txtbuscar;

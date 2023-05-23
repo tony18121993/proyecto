@@ -94,6 +94,7 @@ public class frmCurso extends javax.swing.JFrame {
      private void cargaTabla1(int idcursoacademico){
         DefaultTableModel modelo=(DefaultTableModel)jtCurso.getModel();
         CursoAcademicoDAOimp curacaDAO=CursoAcademicoDAOimp.getInstance();
+
         CursoDAOimp cursoaca=CursoDAOimp.getInstance();
         String[] fila=new String[5];
         

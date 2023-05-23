@@ -91,6 +91,10 @@ public class frmMain extends javax.swing.JFrame {
         optCurso = new javax.swing.JMenuItem();
         optUnidad = new javax.swing.JMenuItem();
         optAlumno = new javax.swing.JMenuItem();
+        optaula = new javax.swing.JMenuItem();
+        opmatricula = new javax.swing.JMenuItem();
+        opautorizados = new javax.swing.JMenuItem();
+        opautorizaciones = new javax.swing.JMenuItem();
         jMenuAnoAcademico = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jPersonal = new javax.swing.JMenuItem();
@@ -184,6 +188,42 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
         optMenuCursoAcademico.add(optAlumno);
+
+        optaula.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        optaula.setText("Aula");
+        optaula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optaulaActionPerformed(evt);
+            }
+        });
+        optMenuCursoAcademico.add(optaula);
+
+        opmatricula.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        opmatricula.setText("Matriculas");
+        opmatricula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opmatriculaActionPerformed(evt);
+            }
+        });
+        optMenuCursoAcademico.add(opmatricula);
+
+        opautorizados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        opautorizados.setText("Autorizados");
+        opautorizados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opautorizadosActionPerformed(evt);
+            }
+        });
+        optMenuCursoAcademico.add(opautorizados);
+
+        opautorizaciones.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        opautorizaciones.setText("Autorizaciones");
+        opautorizaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opautorizacionesActionPerformed(evt);
+            }
+        });
+        optMenuCursoAcademico.add(opautorizaciones);
 
         menuBar.add(optMenuCursoAcademico);
 
@@ -302,6 +342,30 @@ public class frmMain extends javax.swing.JFrame {
         frmUnidad frmunidad=new frmUnidad();
         frmunidad.setVisible(true);
     }//GEN-LAST:event_optUnidadActionPerformed
+
+    private void optaulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optaulaActionPerformed
+        // TODO add your handling code here:
+        frmAula frmaula=new frmAula();
+        frmaula.setVisible(true);
+    }//GEN-LAST:event_optaulaActionPerformed
+
+    private void opmatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opmatriculaActionPerformed
+        // TODO add your handling code here:
+        frmMatricula frmmatricula=new frmMatricula();
+        frmmatricula.setVisible(true);
+    }//GEN-LAST:event_opmatriculaActionPerformed
+
+    private void opautorizadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opautorizadosActionPerformed
+        // TODO add your handling code here:
+        frmAutorizado frmautorizado=new frmAutorizado();
+        frmautorizado.setVisible(true);
+    }//GEN-LAST:event_opautorizadosActionPerformed
+
+    private void opautorizacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opautorizacionesActionPerformed
+        // TODO add your handling code here:
+        frmAutorizaciones frmautorizaciones= new frmAutorizaciones();
+        frmautorizaciones.setVisible(true);
+    }//GEN-LAST:event_opautorizacionesActionPerformed
     
     /**
      * @param args the command line arguments
@@ -356,11 +420,15 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jPersonal;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem opautorizaciones;
+    private javax.swing.JMenuItem opautorizados;
     private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JMenuItem opmatricula;
     private javax.swing.JMenuItem optAlumno;
     private javax.swing.JMenuItem optCurso;
     private javax.swing.JMenu optMenuCursoAcademico;
     private javax.swing.JMenuItem optUnidad;
+    private javax.swing.JMenuItem optaula;
     private javax.swing.JMenuItem optmAcerca;
     private javax.swing.JDesktopPane pnldesktop;
     private javax.swing.JMenuItem saveAsMenuItem;

@@ -79,6 +79,7 @@ public class jpAlumnoUpdate extends javax.swing.JPanel {
         txtemail = new javax.swing.JTextField();
         txtfechanacimiento = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 255));
 
@@ -86,11 +87,11 @@ public class jpAlumnoUpdate extends javax.swing.JPanel {
 
         jLabel2.setText("id");
 
-        jLabel3.setText("nombre");
+        jLabel3.setText("nombre*");
 
         jLabel4.setText("dni");
 
-        jLabel5.setText("apellido1");
+        jLabel5.setText("apellido1*");
 
         jLabel6.setText("apellido2");
 
@@ -102,11 +103,11 @@ public class jpAlumnoUpdate extends javax.swing.JPanel {
 
         jLabel10.setText("provincia");
 
-        jLabel11.setText("telefono");
+        jLabel11.setText("telefono*");
 
         jLabel12.setText("email");
 
-        jLabel13.setText("Fecha Nacimiento");
+        jLabel13.setText("Fecha Nacimiento*");
 
         txtid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,6 +133,8 @@ public class jpAlumnoUpdate extends javax.swing.JPanel {
                 btnUpdateActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("* Campos Obligatorios");
 
         javax.swing.GroupLayout pnldatosLayout = new javax.swing.GroupLayout(pnldatos);
         pnldatos.setLayout(pnldatosLayout);
@@ -179,19 +182,23 @@ public class jpAlumnoUpdate extends javax.swing.JPanel {
                                         .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(44, 44, 44)
                                         .addComponent(jLabel8))))
-                            .addGroup(pnldatosLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel6)
                             .addGroup(pnldatosLayout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtapellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtapellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnldatosLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(pnldatosLayout.createSequentialGroup()
                         .addGap(210, 210, 210)
                         .addComponent(btnUpdate)))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnldatosLayout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(377, 377, 377))
         );
         pnldatosLayout.setVerticalGroup(
             pnldatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,7 +242,9 @@ public class jpAlumnoUpdate extends javax.swing.JPanel {
                     .addComponent(jLabel13)
                     .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtfechanacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(btnUpdate)
                 .addContainerGap())
         );
@@ -244,7 +253,7 @@ public class jpAlumnoUpdate extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 546, Short.MAX_VALUE)
+            .addGap(0, 556, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -302,6 +311,7 @@ public class jpAlumnoUpdate extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

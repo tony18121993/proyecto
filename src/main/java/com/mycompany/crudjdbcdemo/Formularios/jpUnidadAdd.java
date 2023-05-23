@@ -65,13 +65,13 @@ public class jpUnidadAdd extends javax.swing.JPanel {
 
         jLabel1.setText("id");
 
-        jLabel2.setText("codigo");
+        jLabel2.setText("codigo*");
 
-        jLabel3.setText("nombre");
+        jLabel3.setText("nombre*");
 
-        jLabel4.setText("observaciones");
+        jLabel4.setText("observaciones*");
 
-        jLabel5.setText("curso");
+        jLabel5.setText("curso*");
 
         jLabel6.setText("tutor");
 

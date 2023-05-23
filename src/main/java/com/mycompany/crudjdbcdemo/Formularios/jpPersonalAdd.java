@@ -64,13 +64,13 @@ public class jpPersonalAdd extends javax.swing.JPanel {
 
         jLabel2.setText("id");
 
-        jLabel3.setText("nombre");
+        jLabel3.setText("nombre*");
 
-        jLabel4.setText("dni");
+        jLabel4.setText("dni*");
 
-        jLabel5.setText("apellido1");
+        jLabel5.setText("apellido1*");
 
-        jLabel6.setText("apellido2");
+        jLabel6.setText("apellido2*");
 
         jLabel7.setText("direccion");
 
@@ -84,7 +84,7 @@ public class jpPersonalAdd extends javax.swing.JPanel {
 
         jLabel12.setText("email");
 
-        jLabel13.setText("tipo");
+        jLabel13.setText("tipo*");
 
         txtid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,7 +215,7 @@ public class jpPersonalAdd extends javax.swing.JPanel {
                     .addComponent(jLabel13)
                     .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txttipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addComponent(btnadd)
                 .addGap(15, 15, 15))
         );

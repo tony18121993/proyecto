@@ -87,7 +87,7 @@ public class AulaDaoimp implements AulaDao {
     }
 
     @Override
-    public int update(Aula c) throws SQLException {
+    public int update(int id,Aula c) throws SQLException {
         String sql="update aula set codigo=?,descripcion=? where id=? ";
         try(Connection cn= MyDataSource.getConnection();
             PreparedStatement pstm=cn.prepareStatement(sql);){

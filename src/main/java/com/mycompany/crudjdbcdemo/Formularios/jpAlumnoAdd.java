@@ -57,6 +57,7 @@ public class jpAlumnoAdd extends javax.swing.JPanel {
         txtemail = new javax.swing.JTextField();
         txtfechanacimiento = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 255, 255));
 
@@ -64,11 +65,11 @@ public class jpAlumnoAdd extends javax.swing.JPanel {
 
         jLabel2.setText("id");
 
-        jLabel3.setText("nombre");
+        jLabel3.setText("nombre*");
 
         jLabel4.setText("dni");
 
-        jLabel5.setText("apellido1");
+        jLabel5.setText("apellido1*");
 
         jLabel6.setText("apellido2");
 
@@ -80,11 +81,11 @@ public class jpAlumnoAdd extends javax.swing.JPanel {
 
         jLabel10.setText("provincia");
 
-        jLabel11.setText("telefono");
+        jLabel11.setText("telefono*");
 
         jLabel12.setText("email");
 
-        jLabel13.setText("Fecha Nacimiento");
+        jLabel13.setText("Fecha Nacimiento*");
 
         txtid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,6 +111,8 @@ public class jpAlumnoAdd extends javax.swing.JPanel {
                 btnAddActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("*Campos Obligatorios");
 
         javax.swing.GroupLayout pnldatosLayout = new javax.swing.GroupLayout(pnldatos);
         pnldatos.setLayout(pnldatosLayout);
@@ -165,7 +168,10 @@ public class jpAlumnoAdd extends javax.swing.JPanel {
                             .addGroup(pnldatosLayout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtapellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtapellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnldatosLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(pnldatosLayout.createSequentialGroup()
                         .addGap(210, 210, 210)
                         .addComponent(btnAdd)))
@@ -213,7 +219,9 @@ public class jpAlumnoAdd extends javax.swing.JPanel {
                     .addComponent(jLabel13)
                     .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtfechanacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(btnAdd)
                 .addContainerGap())
         );
@@ -222,7 +230,7 @@ public class jpAlumnoAdd extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 546, Short.MAX_VALUE)
+            .addGap(0, 556, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -275,11 +283,12 @@ public class jpAlumnoAdd extends javax.swing.JPanel {
             c.setPoblacion(txtpoblacion.getText());
             c.setProvincia(txtprovincia.getText());
             c.setTelefono(txttelefono.getText());
-            c.setId(Integer.parseInt(txtid.getText()));
+            //c.setId(Integer.parseInt(txtid.getText()));
             return c;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

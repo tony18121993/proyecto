@@ -66,7 +66,10 @@ public class AutorizadosDaoimp implements AutorizadosDao {
                 c.setNombre(rs.getString("nombre"));
                 c.setApellido1(rs.getString("apellido1"));  
                 c.setApellido2(rs.getString("apellido2"));
-                c.setParentesco((Parentesco)rs.getObject("parentesco"));
+                String parentescostr=rs.getString("parentesco");
+                Parentesco parentesco=Parentesco.valueOf(parentescostr);
+                
+                c.setParentesco(parentesco);
                 
             }
         }
@@ -89,10 +92,12 @@ public class AutorizadosDaoimp implements AutorizadosDao {
                 c.setNombre(rs.getString("nombre"));
                 c.setApellido1(rs.getString("apellido1"));  
                 c.setApellido2(rs.getString("apellido2"));
-                System.out.println("que dices");
-                c.setParentesco((Parentesco.valueOf(rs.getString("parentesco"))));
-                System.out.println("hola");
+                String parentescostr=rs.getString("parentesco");
+                Parentesco parentesco=Parentesco.valueOf(parentescostr);
+                
+                c.setParentesco(parentesco);
                 badeDatos.add(c);
+                
             }
             
         }
@@ -110,8 +115,10 @@ public class AutorizadosDaoimp implements AutorizadosDao {
             pstm.setString(2, c.getNombre());
             pstm.setString(3,c.getApellido1());
             pstm.setString(4, c.getApellido2());
+            
             pstm.setString(5, c.getParentesco().toString());
-            pstm.setInt(6, c.getId());
+           
+            pstm.setInt(6, id);
             return pstm.executeUpdate();
         }
     }

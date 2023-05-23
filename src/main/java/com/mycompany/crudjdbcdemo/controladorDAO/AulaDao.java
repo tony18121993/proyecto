@@ -19,7 +19,7 @@ public interface AulaDao {
    
    List<Aula> getAll() throws SQLException;
    
-   int update(Aula c) throws SQLException;
+   int update(int id,Aula c) throws SQLException;
    
    void delete(int id) throws SQLException;
    

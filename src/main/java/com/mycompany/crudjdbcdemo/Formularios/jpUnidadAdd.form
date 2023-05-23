@@ -138,22 +138,22 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="codigo"/>
+            <Property name="text" type="java.lang.String" value="codigo*"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="nombre"/>
+            <Property name="text" type="java.lang.String" value="nombre*"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="observaciones"/>
+            <Property name="text" type="java.lang.String" value="observaciones*"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
-            <Property name="text" type="java.lang.String" value="curso"/>
+            <Property name="text" type="java.lang.String" value="curso*"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">

@@ -90,7 +90,7 @@ public class frmUnidad extends javax.swing.JFrame {
                 fila[5]=tutor.getNombre();
                 //fila[6]=""+curso.getIdaula();
                 Aula au=aulaDAO.getById(curso.getIdaula());
-                fila[6] = au.getCodigo();
+                fila[6] = au.getDescripcion();
                 modelo.addRow(fila);
             }
             
